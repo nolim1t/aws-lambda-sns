@@ -5,6 +5,29 @@ Explorings using AWS Lambda SNS to push stuff
 ## Disclaimer
 I may not have any idea what I'm doing. Proceed with caution
 
+## AWS IAM Policy
+
+Make sure you grant write permissions to the lambda role
+
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Stmt1443521471000",
+            "Effect": "Allow",
+            "Action": [
+                "sns:CreatePlatformEndpoint",
+                "sns:Publish"
+            ],
+            "Resource": [
+                "arn:aws:sns:*:*:*"
+            ]
+        }
+    ]
+}
+```
+
 ## How it processes stuff
 Processes payloads in the following format:
 
