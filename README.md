@@ -3,7 +3,10 @@
 Explorings using AWS Lambda SNS to push stuff
 
 ## Disclaimer
-I may not have any idea what I'm doing. Proceed with caution
+It's my first time with lambda. Proceed with caution
+
+## Apple's push notification docs
+https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html
 
 ## AWS IAM Policy
 
