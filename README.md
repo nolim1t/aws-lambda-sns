@@ -1,4 +1,4 @@
-# aws-lambda-sns
+# aws-lambda-sns Examples
 ## About
 Explorings using AWS Lambda SNS to push stuff
 
