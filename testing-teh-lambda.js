@@ -8,6 +8,8 @@ var lambdapayload = JSON.stringify({
     message: 'Hello World',
     custom: {
         senderid: 'testsenderid',
+        localizationkey: "LOCALIZATION_KEY_IN_STRINGS_FILE",
+        sound: "default",
         recipientid: 'testrecipient',
         recipientname: 'Test Recipientname',
         messageid: 'testmsgid',
