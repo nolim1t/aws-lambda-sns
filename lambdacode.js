@@ -1,6 +1,6 @@
 var AWS = require('aws-sdk');
-// Configuration
-var ios_application_arn = 'THIS IS YOUR APPLICATION ARN.'; // Get this from the AWS console
+// Configure
+var ios_application_arn = 'YOUR DEFAULT IOS ARN'; // Default ARN
 
 exports.handler = function(event, context) {
     var parsed = JSON.parse(event.Records[0].Sns.Message);
@@ -10,6 +10,9 @@ exports.handler = function(event, context) {
         };
         processedMessage.message = parsed.message;
         console.log('Message received was: ' + processedMessage.message);
+        // Maybe receive the ARN as part of the payload?
+        if (parsed.platformARN !== undefined) processedMessage.platformARN = parsed.platformARN;
+        
         if (parsed.custom !== undefined) {
             // This is an iOS custom field for presenting a string with localization
             if (parsed.custom.localizationkey !== undefined) processedMessage.localizationkey = parsed.custom.localizationkey;
@@ -19,6 +22,7 @@ exports.handler = function(event, context) {
             if (parsed.custom.recipientid !== undefined) processedMessage.recipientid = parsed.custom.recipientid;
             if (parsed.custom.fromname !== undefined) processedMessage.fromname = parsed.custom.fromname;
             
+            // iOS Custom field
             if (parsed.custom.sound !== undefined) processedMessage.sound = parsed.custom.sound;
 
             if (parsed.custom.deviceplatform !== undefined && parsed.custom.devicetoken !== undefined) {
@@ -32,7 +36,8 @@ exports.handler = function(event, context) {
             if (processedMessage.deviceplatform === "ios") {
                 // Process if iOS
                 var sns = new AWS.SNS({apiVersion: '2010-03-31'});
-                sns.createPlatformEndpoint({Token: processedMessage.devicetoken, PlatformApplicationArn: ios_application_arn}, function(err, data) {
+                var ARN = processedMessage.platformARN || ios_application_arn;
+                sns.createPlatformEndpoint({Token: processedMessage.devicetoken, PlatformApplicationArn: ARN}, function(err, data) {
                     if (!err) {
                         // No error so lets continue
                         console.log('Using EndpointARN: ' + data.EndpointArn);
@@ -79,6 +84,7 @@ exports.handler = function(event, context) {
                                 console.log('Published: ' + pubdata.MessageId);
                                 context.succeed('Done');
                            } else {
+                               // TODO: Should handle endpoint disabled?
                                 context.fail('Error publishing to push identifier: ' + puberr);
                            }
                         });
