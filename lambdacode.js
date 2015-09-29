@@ -17,6 +17,7 @@ exports.handler = function(event, context) {
             }
         }
         console.log('processedMessage in JSON speak is: ' + JSON.stringify(processedMessage));
+        // TODO: Handle the custom stuff and do something useful with it.
         context.succeed('Done');
     } else {
         context.fail('Message key not found')
