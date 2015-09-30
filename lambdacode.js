@@ -33,9 +33,9 @@ exports.handler = function(event, context) {
         console.log('processedMessage in JSON speak is: ' + JSON.stringify(processedMessage));
 
         if (processedMessage.deviceplatform !== undefined && processedMessage.devicetoken !== undefined) {
+            var sns = new AWS.SNS({apiVersion: '2010-03-31'});
             if (processedMessage.deviceplatform === "ios") {
                 // Process if iOS
-                var sns = new AWS.SNS({apiVersion: '2010-03-31'});
                 var ARN = processedMessage.platformARN || ios_application_arn;
                 sns.createPlatformEndpoint({Token: processedMessage.devicetoken, PlatformApplicationArn: ARN}, function(err, data) {
                     if (!err) {
